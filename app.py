@@ -1,5 +1,6 @@
 import streamlit as st
-import random
+
+st.set_page_config(page_title="キングフィッシャーズ検定", page_icon="🏀")
 
 st.title("🏀 キングフィッシャーズ検定")
 
@@ -20,27 +21,60 @@ questions = [
 if "i" not in st.session_state:
     st.session_state.i = 0
     st.session_state.score = 0
+    st.session_state.answered = False
+    st.session_state.correct = False
 
-# 終了判定
+# 終了画面
 if st.session_state.i >= len(questions):
-    st.success(f"終了！スコア：{st.session_state.score}/{len(questions)}")
-    if st.button("もう一回"):
+    st.balloons()
+    st.success(f"🎉 お疲れさまでした！")
+    st.write(f"## 得点：{st.session_state.score} / {len(questions)}")
+
+    if st.button("もう一度挑戦する"):
         st.session_state.i = 0
         st.session_state.score = 0
+        st.session_state.answered = False
+        st.session_state.correct = False
+        st.rerun()
+
     st.stop()
 
 q = questions[st.session_state.i]
 
 st.subheader(q["q"])
-answer = st.radio("選んでください", q["choices"], key=st.session_state.i)
 
-if st.button("回答する"):
-    if answer == q["answer"]:
-        st.success("正解！🎉")
-        st.session_state.score += 1
+answer = st.radio(
+    "答えを選んでください",
+    q["choices"],
+    key=f"q{st.session_state.i}"
+)
+
+# 回答前
+if not st.session_state.answered:
+
+    if st.button("回答する"):
+
+        st.session_state.answered = True
+
+        if answer == q["answer"]:
+            st.session_state.score += 1
+            st.session_state.correct = True
+        else:
+            st.session_state.correct = False
+
+        st.rerun()
+
+# 回答後
+else:
+
+    if st.session_state.correct:
+        st.success("🎉 正解です！")
     else:
-        st.error(f"不正解！ 正解は {q['answer']}")
+        st.error(f"❌ 不正解！ 正解は「{q['answer']}」です。")
 
- st.session_state.i += 1
-    st.rerun()
+    st.write(f"現在の得点：**{st.session_state.score}点**")
 
+    if st.button("次の問題へ"):
+        st.session_state.i += 1
+        st.session_state.answered = False
+        st.rerun()
