@@ -1,10 +1,17 @@
 import streamlit as st
 import random
 
-st.set_page_config(page_title="キングフィッシャーズ検定", page_icon="🏀")
+# ページ設定
+st.set_page_config(
+    page_title="キングフィッシャーズ検定",
+    page_icon="🏀"
+)
 
 st.title("🏀 キングフィッシャーズ検定")
 
+# -------------------------------
+# 問題
+# -------------------------------
 questions = [
     {"q":"１．１試合、何Ｑ（クォーター）ある？","choices":["２Ｑ","３Ｑ","４Ｑ","６Ｑ"],"answer":"４Ｑ"},
     {"q":"２．ショットクロックは何秒？","choices":["１２秒","２４秒","３０秒","３６秒"],"answer":"２４秒"},
@@ -18,33 +25,59 @@ questions = [
     {"q":"１０．コートに入れる人数は１チーム何人？","choices":["4人","5人","6人","7人"],"answer":"5人"},
 ]
 
-# 初回だけ問題をシャッフル
+# -------------------------------
+# 初回だけシャッフル
+# -------------------------------
 if "questions" not in st.session_state:
     shuffled = questions.copy()
     random.shuffle(shuffled)
     st.session_state.questions = shuffled
 
+# -------------------------------
 # 初期化
+# -------------------------------
 if "i" not in st.session_state:
     st.session_state.i = 0
     st.session_state.score = 0
     st.session_state.answered = False
     st.session_state.correct = False
 
+# -------------------------------
 # 終了画面
+# -------------------------------
 if st.session_state.i >= len(st.session_state.questions):
-    st.balloons()
-    st.success("🎉 お疲れさまでした！")
-    st.write(f"## 得点：{st.session_state.score} / {len(st.session_state.questions)}")
 
-    if st.button("もう一回挑戦する"):
+    st.balloons()
+
+    st.success("🎉 お疲れさまでした！")
+
+    st.write(
+        f"## 得点：{st.session_state.score} / {len(st.session_state.questions)}"
+    )
+
+    percentage = st.session_state.score / len(st.session_state.questions) * 100
+    st.write(f"### 正解率：{percentage:.0f}%")
+
+    if st.button("もう一回"):
         for key in list(st.session_state.keys()):
             del st.session_state[key]
         st.rerun()
 
     st.stop()
 
+# -------------------------------
+# 進捗バー
+# -------------------------------
+progress = st.session_state.i / len(st.session_state.questions)
+st.progress(progress)
+
+st.write(
+    f"### 問題 {st.session_state.i + 1} / {len(st.session_state.questions)}"
+)
+
+# -------------------------------
 # 問題表示
+# -------------------------------
 q = st.session_state.questions[st.session_state.i]
 
 st.subheader(q["q"])
@@ -55,7 +88,9 @@ answer = st.radio(
     key=f"q{st.session_state.i}"
 )
 
+# -------------------------------
 # 回答前
+# -------------------------------
 if not st.session_state.answered:
 
     if st.button("回答する"):
@@ -70,7 +105,9 @@ if not st.session_state.answered:
 
         st.rerun()
 
+# -------------------------------
 # 回答後
+# -------------------------------
 else:
 
     if st.session_state.correct:
