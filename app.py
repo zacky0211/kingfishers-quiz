@@ -56,12 +56,11 @@ questions = [
 ]
 
 # -------------------------------
-# 初回だけシャッフル
 # -------------------------------
+# 初回だけ全問の中から10問をランダムに選ぶ
 if "questions" not in st.session_state:
-    shuffled = questions.copy()
-    random.shuffle(shuffled)
-    st.session_state.questions = shuffled
+    st.session_state.questions = random.sample(questions, 10)
+    
 
 # -------------------------------
 # 初期化
