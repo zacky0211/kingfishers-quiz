@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="キングフィッシャーズ検定", page_icon="🏀")
 
-st.title("🏀 キングフィッシャーズ検定")
+st.title("🏀 バスケット検定")
 
 questions = [
     {"q":"１．１試合、何Ｑ（クォーター）ある？","choices":["２Ｑ","３Ｑ","４Ｑ","６Ｑ"],"answer":"４Ｑ"},
