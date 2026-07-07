@@ -36,8 +36,8 @@ if st.session_state.i >= len(questions):
     st.success(f"🎉 お疲れさまでした！")
     st.write(f"## 得点：{st.session_state.score} / {len(questions)}")
 
-    if st.button("もう一度挑戦する"):
-   　　 for key in list(st.session_state.keys()):
+if st.button("もう一回"):
+    for key in list(st.session_state.keys()):
         del st.session_state[key]
     st.rerun()
 
