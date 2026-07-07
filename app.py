@@ -17,7 +17,8 @@ questions = [
     {"q":"９．１試合で同じ選手が何回ファウルしたら退場になる？","choices":["３回","４回","５回","ミニバスは退場にならない"],"answer":"５回"},
     {"q":"１０．コートに入れる人数は１チーム何人？","choices":["4人","5人","6人","7人"],"answer":"5人"},
 ]
-# 初回だけ問題をランダムに並び替える
+
+# 初回だけ問題をシャッフル
 if "questions" not in st.session_state:
     shuffled = questions.copy()
     random.shuffle(shuffled)
@@ -31,18 +32,19 @@ if "i" not in st.session_state:
     st.session_state.correct = False
 
 # 終了画面
-if st.session_state.i >= len(questions):
+if st.session_state.i >= len(st.session_state.questions):
     st.balloons()
-    st.success(f"🎉 お疲れさまでした！")
-    st.write(f"## 得点：{st.session_state.score} / {len(questions)}")
+    st.success("🎉 お疲れさまでした！")
+    st.write(f"## 得点：{st.session_state.score} / {len(st.session_state.questions)}")
 
-if st.button("もう一回"):
-    for key in list(st.session_state.keys()):
-        del st.session_state[key]
-    st.rerun()
+    if st.button("もう一回挑戦する"):
+        for key in list(st.session_state.keys()):
+            del st.session_state[key]
+        st.rerun()
 
     st.stop()
 
+# 問題表示
 q = st.session_state.questions[st.session_state.i]
 
 st.subheader(q["q"])
