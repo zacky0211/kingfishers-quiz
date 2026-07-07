@@ -17,6 +17,11 @@ questions = [
     {"q":"９．１試合で同じ選手が何回ファウルしたら退場になる？","choices":["３回","４回","５回","ミニバスは退場にならない"],"answer":"５回"},
     {"q":"１０．コートに入れる人数は１チーム何人？","choices":["4人","5人","6人","7人"],"answer":"5人"},
 ]
+# 初回だけ問題をランダムに並び替える
+if "questions" not in st.session_state:
+    shuffled = questions.copy()
+    random.shuffle(shuffled)
+    st.session_state.questions = shuffled
 
 # 初期化
 if "i" not in st.session_state:
@@ -40,7 +45,7 @@ if st.session_state.i >= len(questions):
 
     st.stop()
 
-q = questions[st.session_state.i]
+q = st.session_state.questions[st.session_state.i]
 
 st.subheader(q["q"])
 
