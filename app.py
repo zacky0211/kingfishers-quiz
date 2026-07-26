@@ -8,6 +8,29 @@ st.set_page_config(
 )
 
 st.title("🏀 キングフィッシャーズ検定")
+st.markdown("""
+<style>
+.stApp {
+    background: linear-gradient(135deg, #dbeafe, #fef3c7);
+}
+
+h1 {
+    color: #0f172a;
+    text-align: center;
+}
+
+.stButton>button {
+    background-color: #2563eb;
+    color: white;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.stProgress > div > div > div > div {
+    background-color: #2563eb;
+}
+</style>
+""", unsafe_allow_html=True)
 
 # -------------------------------
 # 問題
