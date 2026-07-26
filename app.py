@@ -96,9 +96,9 @@ questions = [
 
 # -------------------------------
 # -------------------------------
-# 初回だけ全問の中から10問をランダムに選ぶ
+# 初回だけ全問の中から15問をランダムに選ぶ
 if "questions" not in st.session_state:
-    st.session_state.questions = random.sample(questions, 10)
+    st.session_state.questions = random.sample(questions, 15)
     
 
 # -------------------------------
